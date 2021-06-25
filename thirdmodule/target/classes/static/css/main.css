@@ -1,0 +1,9 @@
+.login_block {
+    width:300px;
+}
+a {
+    text-decoration: none;
+}
+#edit_user_form .row {
+    width:350px;
+}
