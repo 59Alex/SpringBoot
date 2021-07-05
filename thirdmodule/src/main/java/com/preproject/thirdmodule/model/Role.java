@@ -1,8 +1,6 @@
 package com.preproject.thirdmodule.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;

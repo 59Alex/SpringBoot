@@ -1,28 +1,22 @@
 package com.preproject.thirdmodule.service;
 
-import com.preproject.thirdmodule.model.Role;
 import com.preproject.thirdmodule.model.User;
 import com.preproject.thirdmodule.repository.UserRepository;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService implements com.preproject.thirdmodule.service.Service {
 
     private UserRepository repository;
     private PasswordEncoder encoder;
@@ -55,12 +49,15 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean updateUser(long id, User user){
+    public boolean updateUser(long id, @NotNull User user){
         //проверка на уникальность поля username
+        User userBD = repository.findById(id).get();
         try {
+            if(userBD.getUsername().equals(user.getUsername())) {
+                throw new UsernameNotFoundException("");
+            }
             loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ex) {
-            User userBD = repository.findById(id).get();
             userBD.setEmail(user.getEmail());
             userBD.setFirstName(user.getFirstName());
             userBD.setLastName(user.getLastName());
@@ -74,9 +71,8 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean deleteUser(long id) {
+    public void deleteUser(long id) {
         repository.deleteById(id);
-        return true;
     }
 
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
