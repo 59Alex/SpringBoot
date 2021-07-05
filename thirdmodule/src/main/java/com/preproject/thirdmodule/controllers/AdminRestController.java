@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.preproject.thirdmodule.model.User;
 import com.preproject.thirdmodule.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.json.*;
 import sun.security.provider.certpath.OCSPResponse;
@@ -35,8 +37,8 @@ public class AdminRestController {
 
     @GetMapping(value="/getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public User getById(@PathVariable Long id) {
-        return service.findUserById(id);
+    public ResponseEntity<User> getById(@PathVariable Long id) {
+        return new ResponseEntity<>(service.findUserById(id), HttpStatus.OK);
     }
 
     @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,8 +46,8 @@ public class AdminRestController {
         service.updateUser(id, user);
     }
 
-    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable Long id, @RequestBody User user) {
+    @DeleteMapping( "/delete/{id}")
+    public void delete(@PathVariable Long id) {
         service.deleteUser(id);
     }
 }

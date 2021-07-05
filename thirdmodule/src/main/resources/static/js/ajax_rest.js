@@ -10,7 +10,7 @@ function getUsers() {
             insert_users += '<td>' + data[i].age + '</td>';
             insert_users += '<td>' + data[i].username + '</td><td>';
             for(let t = 0; t < data[i].roles.length; t++) {
-                insert_users += '<p>' + data[i].roles[t].role + '</p>';
+                insert_users += data[i].roles[t].role + ' ';
             }
             insert_users += '</td><td><a type="button" href="/' + data[i].id + '" id="edit_user_open_form_btn" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edit_user_modal">Edit</a></td><td><a href="/' + data[i].id + '" type="button" id="delete_user_open_form" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_user_modal">Delete</a></td></tr>';
         }

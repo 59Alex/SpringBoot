@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 @Service
 @Transactional
-public class UserService implements UserDetailsService {
+public class UserService implements com.preproject.thirdmodule.service.Service {
 
     private UserRepository repository;
     private PasswordEncoder encoder;
@@ -57,10 +57,14 @@ public class UserService implements UserDetailsService {
 
     public boolean updateUser(long id, User user){
         //проверка на уникальность поля username
+        User userBD = null;
         try {
+            userBD = repository.findById(id).get();
+            if(userBD.getUsername().equals(user.getUsername())) {
+                throw new UsernameNotFoundException("");
+            }
             loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ex) {
-            User userBD = repository.findById(id).get();
             userBD.setEmail(user.getEmail());
             userBD.setFirstName(user.getFirstName());
             userBD.setLastName(user.getLastName());
@@ -74,17 +78,12 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public boolean deleteUser(long id) {
+    public void deleteUser(long id) {
         repository.deleteById(id);
-        return true;
     }
 
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = repository.findByEmail(s);
-        if(user == null) {
-            logger.info("is null");
-        }
-        logger.info("loadUser by " + s);
         if(user == null) {
             logger.info("dont load");
             throw new UsernameNotFoundException("User not found");
