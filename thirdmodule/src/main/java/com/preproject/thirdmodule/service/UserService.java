@@ -71,8 +71,6 @@ public class UserService implements com.preproject.thirdmodule.service.Service {
             userBD.setPassword(encoder.encode(user.getPassword()));
             userBD.setAge(user.getAge());
             userBD.setRoles(user.getRoles());
-            /*Set<Role> setRole = userBD.getRoles();
-            setRole.addAll(user.getRoles());*/
             return true;
         }
         return false;

@@ -14,7 +14,7 @@
                         <h5 th:text="${auth_entity.getEmail()}"></h5>
                         <h5><b class="fw-light">&nbsp;with role:&nbsp;</b></h5>
                         <th:block th:each="role : ${auth_entity.getRoles()}">
-                            <h5>
+                            <h5 class="mx-1">
                                 <b class="fw-light" th:text="${role.getRole()}"></b>
                             </h5>
                         </th:block>

@@ -25,14 +25,18 @@ public class AdminRestController {
     }
 
     @PostMapping(value = "/save", consumes =  MediaType.APPLICATION_JSON_VALUE)
-    public void save(@RequestBody User user) {
-        service.saveUser(user);
+    @ResponseBody
+    public ResponseEntity<String> save(@RequestBody User user) {
+        if(!service.saveUser(user)) {
+            return new ResponseEntity<>("Такое имя уже существует!", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Ok", HttpStatus.OK);
     }
 
     @GetMapping(value="/get", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public List<User> get() {
-        return service.getAll();
+    public ResponseEntity<List<User>> get() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 
     @GetMapping(value="/getById/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,12 +46,18 @@ public class AdminRestController {
     }
 
     @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@PathVariable Long id, @RequestBody User user) {
-        service.updateUser(id, user);
+    @ResponseBody
+    public ResponseEntity<String> update(@PathVariable Long id, @RequestBody User user) {
+        if(!service.updateUser(id,user)) {
+            return new ResponseEntity<>("Такое имя уже существует!", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Ok", HttpStatus.OK);
     }
 
     @DeleteMapping( "/delete/{id}")
-    public void delete(@PathVariable Long id) {
+    @ResponseBody
+    public ResponseEntity<String> delete(@PathVariable Long id) {
         service.deleteUser(id);
+        return new ResponseEntity<>("Пользователь удалён", HttpStatus.OK);
     }
 }
