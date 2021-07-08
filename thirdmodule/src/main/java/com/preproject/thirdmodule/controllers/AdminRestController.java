@@ -1,15 +1,13 @@
 package com.preproject.thirdmodule.controllers;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.preproject.thirdmodule.model.User;
 import com.preproject.thirdmodule.service.UserService;
+import com.preproject.thirdmodule.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.json.*;
-import sun.security.provider.certpath.OCSPResponse;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class AdminRestController {
     private UserService service;
 
     @Autowired
-    private AdminRestController(UserService service) {
+    private AdminRestController(UserServiceImpl service) {
         this.service = service;
     }
 

@@ -1,8 +1,7 @@
 package com.preproject.thirdmodule.config;
 
 import com.preproject.thirdmodule.config.handlers.LoginSucessHandler;
-import com.preproject.thirdmodule.model.User;
-import com.preproject.thirdmodule.service.UserService;
+import com.preproject.thirdmodule.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
@@ -19,12 +16,12 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserService service;
+    private UserServiceImpl service;
     private LoginSucessHandler handler;
     private PasswordEncoder encoder;
 
     @Autowired
-    public SecurityConfig(UserService service,
+    public SecurityConfig(UserServiceImpl service,
                           LoginSucessHandler handler,
                           PasswordEncoder encoder) {
         this.encoder = encoder;

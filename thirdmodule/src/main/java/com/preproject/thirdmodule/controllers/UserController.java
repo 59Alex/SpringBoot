@@ -2,6 +2,7 @@ package com.preproject.thirdmodule.controllers;
 
 
 import com.preproject.thirdmodule.service.UserService;
+import com.preproject.thirdmodule.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +18,7 @@ public class UserController {
     private UserService service;
 
     @Autowired
-    public UserController(UserService service) {
+    public UserController(UserServiceImpl service) {
         this.service = service;
     }
     public UserController() {}
