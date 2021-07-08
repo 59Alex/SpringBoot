@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveAdmin() {
         try {
-            loadUserByUsername("admin");
+            loadUserByUsername("admin@mail.ru");
         } catch (UsernameNotFoundException ignored) {
             User admin = new User();
             admin.setFirstName("admin");
