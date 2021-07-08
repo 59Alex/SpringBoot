@@ -2,7 +2,7 @@ package com.preproject.thirdmodule.config;
 
 import com.preproject.thirdmodule.config.handlers.LoginSucessHandler;
 
-import com.preproject.thirdmodule.service.UserService;
+import com.preproject.thirdmodule.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +17,12 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserService service;
+    private UserServiceImpl service;
     private LoginSucessHandler handler;
     private PasswordEncoder encoder;
 
     @Autowired
-    public SecurityConfig(UserService service,
+    public SecurityConfig(UserServiceImpl service,
                           LoginSucessHandler handler,
                           PasswordEncoder encoder) {
         this.encoder = encoder;

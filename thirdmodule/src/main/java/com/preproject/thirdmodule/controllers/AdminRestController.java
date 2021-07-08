@@ -3,6 +3,7 @@ package com.preproject.thirdmodule.controllers;
 
 import com.preproject.thirdmodule.model.User;
 import com.preproject.thirdmodule.service.UserService;
+import com.preproject.thirdmodule.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
