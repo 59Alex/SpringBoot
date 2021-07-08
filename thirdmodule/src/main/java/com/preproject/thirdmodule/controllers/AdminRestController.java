@@ -18,7 +18,7 @@ public class AdminRestController {
     private UserService service;
 
     @Autowired
-    private AdminRestController(UserServiceImpl service) {
+    private AdminRestController(UserService service) {
         this.service = service;
     }
 
