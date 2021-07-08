@@ -12,4 +12,5 @@ public interface UserService extends UserDetailsService {
     boolean saveUser(@NotNull User user);
     boolean updateUser(long id, @NotNull User user);
     void deleteUser(long id);
+    void saveAdmin();
 }

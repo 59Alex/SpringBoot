@@ -1,5 +1,6 @@
 package com.preproject.thirdmodule.service;
 
+import com.preproject.thirdmodule.model.Role;
 import com.preproject.thirdmodule.model.User;
 import com.preproject.thirdmodule.repository.UserRepository;
 import com.sun.istack.NotNull;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -73,6 +76,27 @@ public class UserServiceImpl implements UserService {
 
     public void deleteUser(long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void saveAdmin() {
+        try {
+            loadUserByUsername("admin@mail.ru");
+        } catch (UsernameNotFoundException ignored) {
+            User admin = new User();
+            admin.setFirstName("admin");
+            admin.setPassword(encoder.encode("123"));
+            admin.setAge(12);
+            admin.setEmail("admin@mail.ru");
+            admin.setLastName("admin");
+            Role role = new Role("ROLE_ADMIN");
+            Role role2 = new Role("ROLE_USER");
+            Set<Role> setRole = new HashSet<>();
+            setRole.add(role);
+            setRole.add(role2);
+            admin.setRoles(setRole);
+            repository.save(admin);
+        }
     }
 
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
