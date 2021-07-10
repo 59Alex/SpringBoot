@@ -24,11 +24,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository repository;
     private PasswordEncoder encoder;
     private Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
+    private RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository repository,
+                           PasswordEncoder encoder,
+                           RoleService roleService) {
         this.encoder = encoder;
         this.repository = repository;
+        this.roleService = roleService;
     }
     public UserServiceImpl() {}
 
@@ -46,6 +50,7 @@ public class UserServiceImpl implements UserService {
             loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ex) {
             user.setPassword(encoder.encode(user.getPassword()));
+            user.setRoles(roleService.getRolesFromDB(user.getRoles()));
             repository.save(user);
             return true;
         }
@@ -66,7 +71,7 @@ public class UserServiceImpl implements UserService {
             userBD.setLastName(user.getLastName());
             userBD.setPassword(encoder.encode(user.getPassword()));
             userBD.setAge(user.getAge());
-            userBD.setRoles(user.getRoles());
+            userBD.setRoles(roleService.getRolesFromDB(user.getRoles()));
             /*Set<Role> setRole = userBD.getRoles();
             setRole.addAll(user.getRoles());*/
             return true;
@@ -94,7 +99,7 @@ public class UserServiceImpl implements UserService {
             Set<Role> setRole = new HashSet<>();
             setRole.add(role);
             setRole.add(role2);
-            admin.setRoles(setRole);
+            admin.setRoles(roleService.getRolesFromDB(setRole));
             repository.save(admin);
         }
     }

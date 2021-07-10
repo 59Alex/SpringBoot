@@ -11,13 +11,13 @@ import java.util.Set;
 @Table(name="roles")
 public class Role implements GrantedAuthority {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String role;
 
 
     @Transient
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
     public Role(String role) {

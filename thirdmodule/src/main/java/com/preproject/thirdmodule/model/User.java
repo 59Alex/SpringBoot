@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name="users")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column
     private String firstName;
@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private String password;
 
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @JsonCreator

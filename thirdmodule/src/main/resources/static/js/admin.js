@@ -26,6 +26,8 @@ $(document).ready(function () {
     отправляет json юзера на контроллер /save*/
     $('#saveUser').on('click', function (e) {
         save();
+        toggleAdminPanel();
+        $('#adminPanelHead').text("All users");
     });
     //добавление логики при открытии модальных окон
     addUserModalLogic();

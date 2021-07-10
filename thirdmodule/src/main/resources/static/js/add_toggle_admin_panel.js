@@ -13,12 +13,12 @@ function addToggleAdminPannel() {
         toggleAdminPanel();
         $('#adminPanelHead').text("All users");
     });
+}
 
-    /*функция переключения стилей кнопок и collapse*/
-    function toggleAdminPanel() {
-        $('#newUser').toggleClass('show');
-        $('#usersTable').toggleClass('show');
-        $('#newUserBtn').toggleClass('active');
-        $('#usersTableBtn').toggleClass('active');
-    }
+/*функция переключения стилей кнопок и collapse*/
+function toggleAdminPanel() {
+    $('#newUser').toggleClass('show');
+    $('#usersTable').toggleClass('show');
+    $('#newUserBtn').toggleClass('active');
+    $('#usersTableBtn').toggleClass('active');
 }
