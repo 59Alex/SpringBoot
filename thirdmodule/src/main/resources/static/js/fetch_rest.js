@@ -58,13 +58,11 @@ async function save() {
         },
         body: JSON.stringify(getJSONFromForm("#saveForm"))
     });
+
     if(response.ok) {
-        $('#save_user_alert').html('');
-        $('#save_user_alert').html('<div class="alert alert-info" role="alert">Пользователь был сохранён.</div>')
         getUsers();
     } else {
-        $("#save_user_alert").html('');
-        $("#save_user_alert").html('<div class="alert alert-danger" role="alert">Этот Email уже занят.</div>');
+        alert("It looks like this email is already taken");
     }
 
 }

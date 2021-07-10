@@ -18,32 +18,37 @@ import java.util.logging.Logger;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
     private PasswordEncoder encoder;
+    private RoleService roleService;
     private Logger logger = Logger.getLogger(UserServiceImpl.class.getName());
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, PasswordEncoder encoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder encoder,
+                           RoleService roleService) {
+        this.roleService = roleService;
         this.encoder = encoder;
-        this.repository = repository;
+        this.userRepository = userRepository;
     }
     public UserServiceImpl() {}
 
     public List<User> getAll() {
         List<User> list = new ArrayList<>();
-        repository.findAll().forEach(list::add);
+        userRepository.findAll().forEach(list::add);
         return list;
     }
 
-    public User findUserById(long id) { return repository.findById(id).get(); }
+    public User findUserById(long id) { return userRepository.findById(id).get(); }
 
     public boolean saveUser(@NotNull User user) {
         //проверка на уникальность поля username
         try {
             loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ex) {
+            user.setRoles(roleService.getRolesFromDB(user.getRoles()));
             user.setPassword(encoder.encode(user.getPassword()));
-            repository.save(user);
+            userRepository.save(user);
             return true;
         }
         return false;
@@ -53,7 +58,7 @@ public class UserServiceImpl implements UserService {
         //проверка на уникальность поля username
         User userBD = null;
         try {
-            userBD = repository.findById(id).get();
+            userBD = userRepository.findById(id).get();
             if(userBD.getUsername().equals(user.getUsername())) {
                 throw new UsernameNotFoundException("");
             }
@@ -64,14 +69,14 @@ public class UserServiceImpl implements UserService {
             userBD.setLastName(user.getLastName());
             userBD.setPassword(encoder.encode(user.getPassword()));
             userBD.setAge(user.getAge());
-            userBD.setRoles(user.getRoles());
+            userBD.setRoles(roleService.getRolesFromDB(user.getRoles()));
             return true;
         }
         return false;
     }
 
     public void deleteUser(long id) {
-        repository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -90,14 +95,14 @@ public class UserServiceImpl implements UserService {
             Set<Role> setRole = new HashSet<>();
             setRole.add(role);
             setRole.add(role2);
-            admin.setRoles(setRole);
-            repository.save(admin);
+            admin.setRoles(roleService.getRolesFromDB(setRole));
+            userRepository.save(admin);
         }
 
     }
 
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = repository.findByEmail(s);
+        User user = userRepository.findByEmail(s);
         if(user == null) {
             logger.info("dont load");
             throw new UsernameNotFoundException("User not found");
